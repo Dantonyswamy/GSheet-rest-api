@@ -1,0 +1,27 @@
+Parameters needed to build REST API from Google Sheets:
+
+PROJECT_ID: gsheet-as-rest-api
+
+SHEET_ID: 1Ctr7duclLJxaAKLA-1cHwoFo1N9MG8C_wEgafOIqXcA
+
+TAB_ID: streetlights
+
+const auth = await google.auth.getClient({
+        scopes:['https://www.googleapis.com/auth/spreadsheets']
+    });
+    const api=google.sheets({version:'v4', auth});
+    const response = await api.spreadsheets.values.get({
+        spreadsheetId: process.env.SHEET_ID,
+        range:`${process.env.TAB_ID}!A:AH`
+    });
+    for (let row of response.data.value){
+        if (row[0]==id){
+            return {
+                rte_id:row[0],
+                fixture_type:row[1],
+                wattage:row[5],
+                street_name:row[12]
+
+            }
+        }
+    }
